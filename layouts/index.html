@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    {{ $styles := resources.Get "css/global.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styles.Permalink }}">
+</head>
+
+<body>
+    {{ partial "navbar.html" . }}
+    <div id="content">
+        <div>
+            <h2>Overworld Records Artists</h2>
+            <br />
+            <span class="scrollable-flex-span">
+                {{ $artistList := slice }} <!-- Create an empty slice to store artist data -->
+
+                <!-- Use .Pages to get the content files for artists -->
+                {{ range .Site.Pages }}
+                {{ if and (eq .Type "artists") (or .Params.name .Params.photo) }}
+                <!-- Ensure the artist has a name or photo -->
+                {{ $numSongs := 0 }} <!-- Initialize $numSongs to 0 by default -->
+                {{ if .Params.songs }} <!-- Ensure .songs exists -->
+                {{ $numSongs = len .Params.songs }} <!-- Count number of songs from frontmatter -->
+                {{ end }}
+                {{ $artistList = $artistList | append (dict "name" .Params.name "photo" .Params.photo "numSongs"
+                $numSongs) }}
+                {{ end }}
+                {{ end }}
+
+                <!-- Sort artists by number of songs (descending order) -->
+                {{ $sortedArtists := sort $artistList "numSongs" "desc" }}
+
+                <!-- Display artists -->
+                {{ range $sortedArtists }}
+                <div class="artist">
+                    <a href="/artists/{{ .name | urlize }}" target="_blank">
+                        <img src="{{ .photo }}" alt="Photo of {{ .name }}" width="155" height="155">
+                        <p>{{ .name }}</p>
+                    </a>
+                </div>
+                {{ end }}
+
+
+
+            </span>
+        </div>
+        <div class="hr"></div>
+        <div>
+            <h2>Memes</h2>
+            <br />
+            <span class="scrollable-flex-span">
+                {{ $memes := readDir "static/images/memes" }}
+                {{ $shuffledMemes := shuffle $memes }} <!-- Shuffle images -->
+                {{ $selectedMemes := first 5 $shuffledMemes }} <!-- Pick first 5 -->
+
+                {{ range $selectedMemes }}
+                {{ if not .IsDir }} <!-- Ensure it's a file -->
+                {{ $imagePath := printf "/images/memes/%s" .Name }} <!-- Construct path -->
+                {{ $displayName := .Name | replaceRE "\\..*$" "" | replaceRE "-" " " }}
+                <!-- Remove extension & replace hyphens -->
+
+                <div class="meme">
+                    <a href="{{ $imagePath }}" target="_blank">
+                        <img src="{{ $imagePath }}" alt="{{ $displayName }}" width="200">
+                        <p style="opacity: .75;">{{ $displayName | truncate 25 }}</p>
+                    </a>
+                </div>
+                {{ end }}
+                {{ end }}
+
+                <a href="/memes" target="_blank" style="opacity: .35; margin: auto 0; transform: translateY(-1ch);">See
+                    more</a>
+            </span>
+        </div>
+    </div>
+    <style>
+        .scrollable-flex-span {
+            display: inline-flex;
+            width: 100%;
+            gap: 1rem;
+        }
+
+        .artist {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+            width: min-content;
+            text-align: center;
+            font-size: .9rem;
+        }
+
+        .artist img {
+            border-radius: 100%;
+        }
+
+        .artist a p:hover {
+            filter: brightness(150%);
+        }
+    </style>
+</body>
+
+</html>

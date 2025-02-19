@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .Title }}</title>
+</head>
+<body>
+  <h1>{{ .Title }}</h1>
+
+  <!-- Display Artist Photo -->
+  <div class="artist-photo">
+    <img src="{{ .Params.photo }}" alt="Photo of {{ .Params.name }}" width="200" height="200">
+  </div>
+
+  <!-- Artist Name -->
+  <h2>{{ .Params.name }}</h2>
+
+  <!-- Display Songs -->
+  {{ if .Params.songs }}
+    <ul>
+      {{ range .Params.songs }}
+        <li>
+          <h3>{{ .title }}</h3>
+          <p>Released: 
+            {{ with .released }}{{ . | int | time.Format "Jan 2, 2006" }}{{ end }}
+          </p>
+          <iframe width="560" height="202" src="https://www.bandlab.com/embed/?id={{ .sid }}" allowfullscreen></iframe>
+        </li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p>No songs found for {{ .Params.name }}.</p>
+  {{ end }}
+
+  <a href="/artists/">Back to all artists</a>
+</body>
+</html>

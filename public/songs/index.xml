@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site</title>
+    <link>http://localhost:1313/songs/</link>
+    <description>Recent content on My New Hugo Site</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/songs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>http://localhost:1313/songs/single/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/songs/single/</guid>
+      <description>&lt;!DOCTYPE html&gt;&#xD;&#xA;&lt;html lang=&#34;en&#34;&gt;&#xD;&#xA;&lt;head&gt;&#xD;&#xA;  &lt;meta charset=&#34;UTF-8&#34;&gt;&#xD;&#xA;  &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt;&#xD;&#xA;  &lt;title&gt;{{ .Title }}&lt;/title&gt;&#xD;&#xA;&lt;/head&gt;&#xD;&#xA;&lt;body&gt;&#xD;&#xA;  &lt;h1&gt;{{ .Title }}&lt;/h1&gt;&#xD;&#xA;&#xD;&#xA;  {{ $artistFile := .Params.artist_json }}&#xD;&#xA;  {{ $artistData := getJSON $artistFile }}&#xD;&#xA;&#xD;&#xA;  &lt;ul&gt;&#xD;&#xA;    {{ range $artistData.songs }}&#xD;&#xA;      &lt;li&gt;&#xD;&#xA;        &lt;h3&gt;{{ .t }}&lt;/h3&gt;&#xD;&#xA;        &lt;p&gt;Released: &#xD;&#xA;          {{ with .r }}{{ . | dateFormat &#34;Jan 2, 2006&#34; }}{{ end }}&#xD;&#xA;          {{ with .rd }}{{ . | dateFormat &#34;Jan 2, 2006&#34; }}{{ end }}&#xD;&#xA;        &lt;/p&gt;&#xD;&#xA;        &lt;iframe width=&#34;560&#34; height=&#34;202&#34; src=&#34;https://www.bandlab.com/embed/?id={{ .sid }}&#34; allowfullscreen&gt;&lt;/iframe&gt;&#xD;&#xA;      &lt;/li&gt;&#xD;&#xA;    {{ end }}&#xD;&#xA;  &lt;/ul&gt;&#xD;&#xA;&#xD;&#xA;  &lt;a href=&#34;http://localhost:1313/artists/&#34;&gt;Back to all artists&lt;/a&gt;&#xD;&#xA;&lt;/body&gt;&#xD;&#xA;&lt;/html&gt;</description>
+    </item>
+    <item>
+      <title>TrodeKilla DaSando</title>
+      <link>http://localhost:1313/songs/trodekilla-dasando/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/songs/trodekilla-dasando/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
