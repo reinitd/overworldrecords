@@ -1,0 +1,52 @@
+<button id="foenem-btn">
+    <p>FOENEM</p>
+</button>
+
+<style>
+    #foenem-btn {
+        width: 100%;
+        margin: .25rem;
+        border: 2px solid black;
+        border-radius: 8px;
+        background: linear-gradient(to bottom, #c2ffc2 2%, #66ff66 30%, #008000 50%);
+        cursor: pointer;
+
+    }
+
+    #foenem-btn p {
+        font-family: "Anton", serif;
+        padding: 0 0.5rem;
+        font-size: 3rem;
+        transform: scaleX(125%);
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(to bottom, #fff 55%, #acacac 40%);
+        filter: drop-shadow(0 0 0.25rem black);
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-stroke: 1px #000;
+    }
+
+    #foenem-btn:active {
+        background: linear-gradient(to top, #c2ffc2 1%, #66ff66 40%, #008000 50%);
+        transform: scale(.98);
+    }
+
+    #foenem-btn:active p {
+        background: linear-gradient(to top, #fff 55%, #acacac 40%);
+        filter: drop-shadow(0 0 0.25rem black);
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-stroke: 1px #000;
+    }
+</style>
+
+<script>
+    document.getElementById("foenem-btn").addEventListener("click", (e) => {
+        const a = new Audio("/audio/onfoenemgrave.mp3");
+        a.play();
+        a.remove();
+    });
+</script>

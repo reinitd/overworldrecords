@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overworld Records Memes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    {{ $styles := resources.Get "css/global.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styles.Permalink }}">
+</head>
+
+<body>
+    {{ partial "navbar.html" . }}
+    <div id="content" style="margin-top: 2rem;">
+        <div id="primary">
+            <div id="main">
+                <div style="position: relative;">
+                    <h2>Memes</h2>
+                    <br />
+                    <div id="loading">Loading...</div>
+                    <div class="grid">
+                        {{ $memes := readDir "static/images/memes" }}
+                        {{ range $memes }}
+                        {{ if not .IsDir }} <!-- Ensure it's a file -->
+                        {{ $imagePath := printf "/images/memes/%s" .Name }} <!-- Construct path -->
+                        {{ $displayName := .Name | replaceRE "\\..*$" "" | replaceRE "-" " " }}
+                        <!-- Remove extension & replace hyphens -->
+
+                        <div class="grid-item">
+                            <a href="{{ $imagePath }}" target="_blank">
+                                <p style="opacity: .75;">{{ $displayName | truncate 25 }}</p>
+                                <img src="{{ $imagePath }}" alt="{{ $displayName }}" width="200">
+                            </a>
+                        </div>
+                        {{ end }}
+                        {{ end }}
+
+                    </div>
+                </div>
+            </div>
+            <div id="sidebar">
+                {{ partial "foenembtn.html" . }}
+                <div id="adspace">
+                    <strong>MEMES AD SPACE</strong>
+                    <p>Your AD here, <strong>ON GANG!!!!</strong></p>
+                    <p>20 diamonds fo' <strong>7 days!!!!!!</strong></p>
+                    <br />
+                    <p>min width <strong>208 pixels!!!!!</strong></p>
+                    <p>no height limit, but<br />keep it <strong>reasonable!!!!!</strong></p>
+                    <br />
+                    <br />
+                    <p>contact <strong>sando</strong> or <strong>medi!!!!!</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #primary {
+            display: inline-flex;
+            width: 100%;
+            flex-grow: 0;
+            justify-content: space-between;
+        }
+
+        #content #main {
+            flex-grow: 0;
+            width: 100%;
+            padding-right: 2rem;
+        }
+
+        #content #sidebar {
+            border-left: 1px solid rgb(70, 70, 70);
+            flex-grow: 0;
+            min-width: 15rem;
+            max-width: 15rem;
+            padding-left: 2rem;
+            word-break: break-all;
+            word-wrap: break-word;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #adspace {
+            width: 100%;
+            height: 400px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            justify-content: center;
+            background-color: black;
+            background-image: url("/images/ad.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        #loading {
+            background-color: var(--c-bg);
+            position: absolute;
+            text-align: center;
+            height: 100%;
+            width: 100%;
+            z-index: 420;
+        }
+        .grid {
+            width: 100%;
+        }
+        .grid-item {
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all .1s ease;
+        }
+        .grid-item:hover {
+            transform: scale(1.1);
+            z-index: 69;
+            filter: drop-shadow(0 0 1rem black) drop-shadow(0 0 4rem black);
+        }
+
+    </style>
+    <script src="https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+    <script>
+        const grid = document.querySelector(".grid");
+
+        const masonry = new Masonry(grid, {
+            itemSelector: ".grid-item",
+            gutter: 10,
+            percentPosition: true,
+            originLeft: true,
+            originTop: true,
+        });
+        document.getElementById("loading").remove();
+    </script>
+</body>
+
+</html>

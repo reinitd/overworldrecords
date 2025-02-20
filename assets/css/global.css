@@ -6,8 +6,15 @@
     --v-content-width-normal: 70rem;
 }
 
+html, body {
+    cursor: url("/images/cursor.cur"), auto;
+}
+
 body {
     background-color: var(--c-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 * {
@@ -28,13 +35,19 @@ a {
 }
 
 .hr {
-    margin: 2.5rem 0;
+    margin-bottom: 2.5rem;
+    margin-top: 1.5rem;
     height: 1px;
     width: 100%;
     background-color: rgb(70, 70, 70);
 }
+.thin.hr {
+    margin: 1rem 0;
+}
 
-#content {
-    width: var(--v-content-width-normal);
+div#content {
+    max-width: var(--v-content-width-normal);
+    min-width: var(--v-content-width-normal);
     margin: 0 auto;
+    flex-grow: 0;
 }
