@@ -31,12 +31,10 @@ a {
     margin: 2.5rem 0;
     height: 1px;
     width: 100%;
-    background-color: grey;
-    opacity: .5;
+    background-color: rgb(70, 70, 70);
 }
 
 #content {
     width: var(--v-content-width-normal);
     margin: 0 auto;
-    margin-top: 2rem;
 }

@@ -10,7 +10,11 @@
   </url><url>
     <loc>//localhost:1313/artists/</loc>
   </url><url>
+    <loc>//localhost:1313/blogs/</loc>
+  </url><url>
     <loc>//localhost:1313/categories/</loc>
+  </url><url>
+    <loc>//localhost:1313/blogs/1/</loc>
   </url><url>
     <loc>//localhost:1313/tags/</loc>
   </url>

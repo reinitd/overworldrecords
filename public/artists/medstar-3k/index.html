@@ -1,26 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-</head>
-<body>
-  <h1></h1>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
 
   
-  <div class="artist-photo">
-    <img src="https://minotar.net/helm/cd951fe3e20f474fb73f257d5a066945/512.png" alt="Photo of Medstar 3K" width="200" height="200">
+  <link rel="stylesheet" href="//localhost:1313/css/global.min.f7b4b6574652aff486f4dde1824d770257b5dcc964f26db91619f153df2b5f9c.css">
+  <title>Medstar 3K</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+        <div class="wrapper">
+            <a href="/">
+                <img src="/images/Overworld Records Logo.png" alt="Logo" width="100%" />
+            </a>
+            <ul>
+                <li class="">
+                    <a href="//localhost:1313/">Home</a>
+                </li>
+                <li class="">
+                    <a href="//localhost:1313/artists/">Music</a>
+                </li>
+                <li class="">
+                    <a href="//localhost:1313/memes/">Memes</a>
+                </li>
+                <li class="">
+                    <a href="//localhost:1313/blog/">Blog</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+
+<style>
+    header {
+        background-color: var(--c-nav);
+        max-height: 3rem;
+    }
+
+    nav {
+        width: var(--v-content-width-normal);
+        margin: 0 auto;
+        max-height: 3rem;
+    }
+
+    nav>.wrapper {
+        width: 100%;
+        max-height: 3rem;
+        display: inline-flex;
+    }
+
+    nav a {
+        font-family: "Roboto Condensed", serif;
+        height: 100%;
+        flex: 1;
+        max-height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wrapper img {
+        max-height: 3rem;
+        width: 4rem;
+        background-color: rgb(150, 20, 50);
+        padding: .1rem .5rem;
+    }
+
+    nav ul {
+        list-style-type: none;
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    nav li {
+        height: 100%;
+        flex: 1;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        cursor: pointer;
+    }
+
+    nav li.selected {
+        background-color: var(--c-bg);
+    }
+
+    nav li a {
+        margin: 0 auto;
+    }
+
+    nav li:hover a {
+        filter: brightness(150%);
+        transform: scale(1.05);
+    }
+</style>
+  <div id="content">
+    <h1></h1>
+
+    <div id="artistheader">
+      <div id="artist-photo">
+        <img src="https://minotar.net/helm/cd951fe3e20f474fb73f257d5a066945/512.png" alt="Photo of Medstar 3K" width="200" height="200">
+      </div>
+      <span id="artist-details">
+        <h1 class="hl">Medstar 3K</h1>
+        <span>
+          <p class="hl">Vansk</p>
+          <p class="hl">Blue Diamond Gang</p>
+          <p class="hl">0 songs</p>
+        </span>
+      </span>
+    </div>
+
+    
+    <p><br/>No songs found for Medstar 3K.</p>
+    
   </div>
 
-  
-  <h2>Medstar 3K</h2>
+  <style>
+    #songs {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+    }
+    #artistheader {
+      width: 100%;
+      padding: .5rem 0;
+      background-image: url(https://bl-prod-images.azureedge.net/v1.0/userbackgrounds/e79531c3-0a70-4209-85d1-8b48114e02ef/0x380);
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
-  
-  
-    <p>No songs found for Medstar 3K.</p>
-  
+    #artistheader #artist-details {
+      display: flex;
+      flex-direction: column;
+      gap: .15rem;
+    }
 
-  <a href="/artists/">Back to all artists</a>
+    #artistheader .hl {
+      background-color: rgba(0, 0, 0, .65);
+      padding: .1rem .25rem;
+      width: fit-content;
+    }
+
+    #artistheader #artist-details>span {
+      display: inline-flex;
+      gap: .24rem;
+      width: 100%;
+    }
+
+    #artistheader #artist-photo img {
+      border-radius: 100%;
+      margin-left: 1rem;
+    }
+  </style>
 </body>
+
 </html>

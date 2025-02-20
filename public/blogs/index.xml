@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on Overworld Records</title>
+    <link>//localhost:1313/blogs/</link>
+    <description>Recent content in Blogs on Overworld Records</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="//localhost:1313/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Free the gang, 1st blog</title>
+      <link>//localhost:1313/blogs/1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/blogs/1/</guid>
+      <description>&lt;p&gt;FREE FRIZ, FREE GUPTA, FREE DEADLOCKED, FREE ALL THE GANG BLOCKA.&#xA;FLY HIGH ARGETS, BANKSY, POLG, KALE.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

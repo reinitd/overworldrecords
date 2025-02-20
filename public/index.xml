@@ -21,5 +21,12 @@
       <guid>//localhost:1313/artists/trodekilla-dasando/</guid>
       <description></description>
     </item>
+    <item>
+      <title>Free the gang, 1st blog</title>
+      <link>//localhost:1313/blogs/1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/blogs/1/</guid>
+      <description>&lt;p&gt;FREE FRIZ, FREE GUPTA, FREE DEADLOCKED, FREE ALL THE GANG BLOCKA.&#xA;FLY HIGH ARGETS, BANKSY, POLG, KALE.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
