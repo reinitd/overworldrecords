@@ -150,6 +150,7 @@
                     <br />
                     <p>contact <strong>sando</strong> or <strong>medi!!!!!</strong></p>
                 </div>
+                <img class="ad" draggable="false" src="/images/ads/local gang in your area.png" alt="Local gang in your area.">
             </div>
         </div>
     </div>
@@ -236,14 +237,19 @@
             gap: 1rem;
         }
 
+        .ad,
         #adspace {
+            user-select: none;
             width: 100%;
-            height: 400px;
             text-align: center;
             display: flex;
             flex-direction: column;
             gap: .5rem;
             justify-content: center;
+        }
+
+        #adspace {
+            height: 400px;
             background-color: black;
             background-image: url("/images/ad.png");
             background-repeat: no-repeat;

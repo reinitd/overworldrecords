@@ -1,6 +1,16 @@
 <footer>
     <img src="/images/Overworld Records Logo Full.png" alt="Overworld Records" />
 </footer>
+<button id="broke" style="font-size: .75rem; align-self: flex-start; padding-bottom: 1rem; padding-left: 15vw; color: #007bee; text-decoration: underline; background: transparent; border: none; cursor: pointer;">broke</button>
+
+<script>
+    const broke = document.getElementById("broke");
+    broke.onclick = () => {
+        const a = new Audio("/audio/broke.mp3");
+        a.play()
+        a.remove()
+    }
+</script>
 
 <style>
     footer {
