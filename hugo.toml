@@ -3,6 +3,8 @@ languageCode = 'en-us'
 title = 'Overworld Records'
 [params]
     website = 'https://overworldrecords.production'
+[outputs]
+    home = [ "HTML", "JSON", "RSS" ]
 [module]
     [[module.mounts]]
         source = 'assets'

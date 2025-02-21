@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="/images/Overworld Records Logo.jpg">
+    <title>Overworld Records</title>
+
+    <meta name="description" content="Overworld Records, the home of REAL TRAP SHIT, ON FOENEM GANG.">
+    <meta property="og:site_name" content="Overworld Records" />
+    <meta property="og:title" content="Overworld Records" />
+    <meta property="og:description" content="Overworld Records, the home of REAL TRAP SHIT, ON FOENEM GANG." />
+    <meta property="og:url" content="{{ .Site.Params.website }}" />
+    <meta property="og:image" content="{{ .Site.Params.website }}/images/Overworld Records Logo Full.jpg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    {{ $styles := resources.Get "css/global.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styles.Permalink }}">
+</head>
+
+<body>
+    {{ partial "navbar.html" . }}
+    <div id="content" style="margin-top: 2rem;">
+        <div id="primary">
+            <div id="main">
+                <div style="position: relative;">
+                    <h2>Results</h2>
+                    <div id="results"></div>
+                </div>
+            </div>
+            <div id="sidebar">
+                {{ partial "foenembtn.html" . }}
+                <div id="adspace">
+                    <strong>SEARCH AD SPACE</strong>
+                    <p>Your AD here, <strong>ON GANG!!!!</strong></p>
+                    <p>20 diamonds fo' <strong>7 days!!!!!!</strong></p>
+                    <br />
+                    <p>min width <strong>208 pixels!!!!!</strong></p>
+                    <p>no height limit, but<br />keep it <strong>reasonable!!!!!</strong></p>
+                    <br />
+                    <br />
+                    <p>contact <strong>sando</strong> or <strong>medi!!!!!</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const searchQuery = params.get("s");
+
+        if (!searchQuery) {
+            window.location.href = "/";
+        }
+
+        async function loadSearch() {
+            try {
+                const response = await fetch("/index.json");
+                if (!response.ok) {
+                    console.error("Failed to fetch search index:", await response.text());
+                    return [];
+                }
+                const data = await response.json();
+                return data.items || [];
+            } catch (error) {
+                console.error("Error loading search index:", error);
+                return [];
+            }
+        }
+
+        async function showSearchResults() {
+            const posts = await loadSearch();
+            if (posts.length === 0) return;
+
+            const searchString = searchQuery.replace(/[^\w\s]/gi, "");
+            const target = document.getElementById("results");
+            target.innerHTML = "";
+
+            const postsByTitle = Object.fromEntries(posts.map(post => [post.title, post]));
+
+            const index = lunr(function () {
+                this.ref("title");
+                this.field("content");
+                posts.forEach(doc => this.add(doc));
+            });
+
+            if (searchString) {
+                const matches = index.search(searchString);
+                const matchPosts = matches.map(m => postsByTitle[m.ref]).filter(Boolean);
+
+                if (matchPosts.length) {
+                    matchPosts.forEach(p => {
+                        const postDiv = document.createElement("div");
+                        postDiv.classList.add("search-result");
+
+                        const titleDiv = document.createElement("div");
+                        titleDiv.classList.add("search-title");
+
+                        const title = document.createElement("p");
+                        title.textContent = p.title;
+
+                        titleDiv.appendChild(title);
+
+                        const contentDiv = document.createElement("div");
+                        contentDiv.classList.add("search-content");
+                        contentDiv.textContent = p.content.length > 500 ? p.content.substring(0, 500) + '...' : p.content;
+
+                        const small = document.createElement("small");
+                        small.style.opacity = ".5";
+                        small.textContent = p.url;
+
+                        postDiv.appendChild(titleDiv);
+                        postDiv.appendChild(small);
+                        postDiv.appendChild(contentDiv);
+
+                        const a = document.createElement("a");
+                        a.classList.add("search-result-anchor");
+                        a.href = p.url;
+
+                        a.appendChild(postDiv);
+                        target.appendChild(a);
+
+                        const hr = document.createElement("div");
+                        hr.classList.add("hr");
+
+                        target.appendChild(hr);
+                    });
+                } else {
+                    const noResultsMsg = document.createElement("h2");
+                    noResultsMsg.style.textAlign = "center";
+                    noResultsMsg.textContent = "No search results found";
+                    target.appendChild(noResultsMsg);
+                }
+            }
+        }
+
+
+        showSearchResults();
+
+
+    </script>
+
+    <style>
+        #results {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .search-result-anchor:hover .search-result {
+            background-color: rgb(100, 100, 100, .1);
+        }
+
+        .search-result {
+            padding: .5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-result .search-title {
+            font-weight: bold;
+        }
+        .search-result small {
+            margin-bottom: .3rem;}
+
+        #primary {
+            display: inline-flex;
+            width: 100%;
+            flex-grow: 0;
+            justify-content: space-between;
+        }
+
+        #content #main {
+            flex-grow: 0;
+            width: 100%;
+            padding-right: 2rem;
+        }
+
+        #content #sidebar {
+            border-left: 1px solid rgb(70, 70, 70);
+            flex-grow: 0;
+            min-width: 15rem;
+            max-width: 15rem;
+            padding-left: 2rem;
+            word-break: break-all;
+            word-wrap: break-word;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #adspace {
+            width: 100%;
+            height: 400px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            justify-content: center;
+            background-color: black;
+            background-image: url("/images/ad.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    </style>
+</body>
+
+</html>

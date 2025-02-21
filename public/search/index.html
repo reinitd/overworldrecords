@@ -3,17 +3,15 @@
 
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/jpeg" href="/images/Overworld Records Logo.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overworld Records Blog</title>
+    <link rel="icon" type="image/jpeg" href="/images/Overworld Records Logo.jpg">
+    <title>Overworld Records</title>
 
-    <meta name="description"
-        content="View all blogs by various artists on Overworld Records, the home of REAP TRAP SHIT, ON FOENEM GRAVE.">
+    <meta name="description" content="Overworld Records, the home of REAL TRAP SHIT, ON FOENEM GANG.">
     <meta property="og:site_name" content="Overworld Records" />
-    <meta property="og:title" content="Overworld Records Blogs" />
-    <meta property="og:description"
-        content="View all blogs by various artists on Overworld Records, the home of REAP TRAP SHIT, ON FOENEM GRAVE." />
-    <meta property="og:url" content="https://overworldrecords.production/blogs/" />
+    <meta property="og:title" content="Overworld Records" />
+    <meta property="og:description" content="Overworld Records, the home of REAL TRAP SHIT, ON FOENEM GANG." />
+    <meta property="og:url" content="https://overworldrecords.production" />
     <meta property="og:image" content="https://overworldrecords.production/images/Overworld Records Logo Full.jpg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +45,7 @@
                 <li class="">
                     <a href="//localhost:1313/memes/">Memes</a>
                 </li>
-                <li class="selected">
+                <li class="">
                     <a href="//localhost:1313/blogs/">Blog</a>
                 </li>
             </ul>
@@ -163,39 +161,9 @@
     <div id="content" style="margin-top: 2rem;">
         <div id="primary">
             <div id="main">
-                <div>
-                    <h2>Blog Posts</h2>
-                    <br />
-                    <span class="scrollable-flex-span">
-
-                        
-                        <a href="/blogs/2/">
-                            <div class="latest-blog">
-                                <h4 style="margin: 0;">FREE THE GANG</h4>
-                                <span>
-                                    <p style="font-size: .75rem;">TrodeKilla DaSando</p>
-                                    <p style="font-size: .7rem;">Feb 2nd, Year 7</p>
-                                </span>
-                                <div class="lb-content"><p>FREE FRIZ, FREE GUPTA, FREE DEADLOCKED, FREE ALL THE …</p></div>
-                                <small style="opacity: .35;">Read More</small>
-                            </div>
-                        </a>
-                        
-                        <a href="/blogs/1/">
-                            <div class="latest-blog">
-                                <h4 style="margin: 0;">Rest in Peace, 1st blog</h4>
-                                <span>
-                                    <p style="font-size: .75rem;">TrodeKilla DaSando</p>
-                                    <p style="font-size: .7rem;">Feb 2nd, Year 7</p>
-                                </span>
-                                <div class="lb-content"><p>FLY HIGH ARGET, BANKSY, POLG, KALE.
-THEY DIDNT DESERVE …</p></div>
-                                <small style="opacity: .35;">Read More</small>
-                            </div>
-                        </a>
-                        
-
-                    </span>
+                <div style="position: relative;">
+                    <h2>Results</h2>
+                    <div id="results"></div>
                 </div>
             </div>
             <div id="sidebar">
@@ -252,9 +220,9 @@ THEY DIDNT DESERVE …</p></div>
     });
 </script>
                 <div id="adspace">
-                    <strong>BLOG AD SPACE</strong>
+                    <strong>SEARCH AD SPACE</strong>
                     <p>Your AD here, <strong>ON GANG!!!!</strong></p>
-                    <p>14 diamonds fo' <strong>7 days!!!!!!</strong></p>
+                    <p>20 diamonds fo' <strong>7 days!!!!!!</strong></p>
                     <br />
                     <p>min width <strong>208 pixels!!!!!</strong></p>
                     <p>no height limit, but<br />keep it <strong>reasonable!!!!!</strong></p>
@@ -265,60 +233,125 @@ THEY DIDNT DESERVE …</p></div>
             </div>
         </div>
     </div>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const searchQuery = params.get("s");
+
+        if (!searchQuery) {
+            window.location.href = "/";
+        }
+
+        async function loadSearch() {
+            try {
+                const response = await fetch("/index.json");
+                if (!response.ok) {
+                    console.error("Failed to fetch search index:", await response.text());
+                    return [];
+                }
+                const data = await response.json();
+                return data.items || [];
+            } catch (error) {
+                console.error("Error loading search index:", error);
+                return [];
+            }
+        }
+
+        async function showSearchResults() {
+            const posts = await loadSearch();
+            if (posts.length === 0) return;
+
+            const searchString = searchQuery.replace(/[^\w\s]/gi, "");
+            const target = document.getElementById("results");
+            target.innerHTML = "";
+
+            const postsByTitle = Object.fromEntries(posts.map(post => [post.title, post]));
+
+            const index = lunr(function () {
+                this.ref("title");
+                this.field("content");
+                posts.forEach(doc => this.add(doc));
+            });
+
+            if (searchString) {
+                const matches = index.search(searchString);
+                const matchPosts = matches.map(m => postsByTitle[m.ref]).filter(Boolean);
+
+                if (matchPosts.length) {
+                    matchPosts.forEach(p => {
+                        const postDiv = document.createElement("div");
+                        postDiv.classList.add("search-result");
+
+                        const titleDiv = document.createElement("div");
+                        titleDiv.classList.add("search-title");
+
+                        const title = document.createElement("p");
+                        title.textContent = p.title;
+
+                        titleDiv.appendChild(title);
+
+                        const contentDiv = document.createElement("div");
+                        contentDiv.classList.add("search-content");
+                        contentDiv.textContent = p.content.length > 500 ? p.content.substring(0, 500) + '...' : p.content;
+
+                        const small = document.createElement("small");
+                        small.style.opacity = ".5";
+                        small.textContent = p.url;
+
+                        postDiv.appendChild(titleDiv);
+                        postDiv.appendChild(small);
+                        postDiv.appendChild(contentDiv);
+
+                        const a = document.createElement("a");
+                        a.classList.add("search-result-anchor");
+                        a.href = p.url;
+
+                        a.appendChild(postDiv);
+                        target.appendChild(a);
+
+                        const hr = document.createElement("div");
+                        hr.classList.add("hr");
+
+                        target.appendChild(hr);
+                    });
+                } else {
+                    const noResultsMsg = document.createElement("h2");
+                    noResultsMsg.style.textAlign = "center";
+                    noResultsMsg.textContent = "No search results found";
+                    target.appendChild(noResultsMsg);
+                }
+            }
+        }
+
+
+        showSearchResults();
+
+
+    </script>
+
     <style>
-        .scrollable-flex-span {
-            display: inline-flex;
-            width: 100%;
-            max-width: calc(var(--v-content-width-normal) - 2rem - 15rem);
-            padding-bottom: 1rem;
-            gap: 1rem;
-            flex-wrap: nowrap;
-            overflow-x: scroll;
-            flex-grow: 0;
+        #results {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
         }
 
-        .scrollable-flex-span::-webkit-scrollbar {
-            height: 5px;
+        .search-result-anchor:hover .search-result {
+            background-color: rgb(100, 100, 100, .1);
         }
 
-        .scrollable-flex-span::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 4px;
-        }
-
-        .scrollable-flex-span::-webkit-scrollbar-thumb {
-            background: #444;
-            cursor: grab;
-            border-radius: 4px;
-        }
-
-        .scrollable-flex-span::-webkit-scrollbar-thumb:active {
-            cursor: grabbing;
-            background: #222 !important;
-        }
-
-        .scrollable-flex-span::-webkit-scrollbar-thumb:hover {
-            background: #333;
-        }
-
-
-        .artist {
+        .search-result {
+            padding: .5rem;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: .5rem;
-            width: min-content;
-            text-align: center;
-            font-size: .9rem;
         }
 
-        .artist img {
-            border-radius: 100%;
+        .search-result .search-title {
+            font-weight: bold;
         }
-
-        .artist a p:hover {
-            filter: brightness(150%);
-        }
+        .search-result small {
+            margin-bottom: .3rem;}
 
         #primary {
             display: inline-flex;
@@ -359,17 +392,6 @@ THEY DIDNT DESERVE …</p></div>
             background-image: url("/images/ad.png");
             background-repeat: no-repeat;
             background-size: contain;
-        }
-
-        .latest-blog {
-            width: 14rem;
-            padding: .5rem;
-        }
-
-        .latest-blog .lb-content {
-            opacity: .75;
-            font-size: .9rem;
-            padding-top: .25rem;
         }
     </style>
 </body>

@@ -50,13 +50,46 @@
                     <a href="//localhost:1313/blogs/">Blog</a>
                 </li>
             </ul>
+            
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search" />
+                <button id="search-btn">Search</button>
+            </div>
         </div>
     </nav>
 </header>
 
+<script>
+    const search = document.getElementById("search");
+    const searchbtn = document.getElementById("search-btn");
 
+    search.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && search.value.trim() != "") {
+            window.location.replace(`/search?s=${search.value}`);
+        }
+    });
+
+    searchbtn.addEventListener("click", (e) => {
+        if (search.value.trim() != "") {
+            window.location.replace(`/search?s=${search.value}`);
+        }
+    });
+</script>
 
 <style>
+    .search-container {
+        display: inline-flex;
+    }
+    #search {
+        background-color: var(--c-nav);
+        font-size: 1rem;
+        outline: 0;
+    }
+    #search-btn {
+        background-color: var(--c-nav);
+        cursor: pointer;
+    }
+
     header {
         position: sticky;
         z-index: 420;
@@ -236,6 +269,8 @@
                         
                         
                         
+                        
+                        
 
                         
                         
@@ -279,22 +314,9 @@
                         
 
                         <div class="meme">
-                            <a href="/images/memes/fenvryan%20spies.png" target="_blank">
-                                <p style="opacity: .75;">fenvryan spies</p>
-                                <img src="/images/memes/fenvryan%20spies.png" alt="fenvryan spies" width="200">
-                            </a>
-                        </div>
-                        
-                        
-                         
-                         
-                        
-                        
-
-                        <div class="meme">
-                            <a href="/images/memes/country%20opinions.png" target="_blank">
-                                <p style="opacity: .75;">country opinions</p>
-                                <img src="/images/memes/country%20opinions.png" alt="country opinions" width="200">
+                            <a href="/images/memes/we%20live%20in%20a%20world.jpg" target="_blank">
+                                <p style="opacity: .75;">we live in a world</p>
+                                <img src="/images/memes/we%20live%20in%20a%20world.jpg" alt="we live in a world" width="200">
                             </a>
                         </div>
                         
@@ -331,9 +353,22 @@
                         
 
                         <div class="meme">
-                            <a href="/images/memes/we%20live%20in%20a%20world.jpg" target="_blank">
-                                <p style="opacity: .75;">we live in a world</p>
-                                <img src="/images/memes/we%20live%20in%20a%20world.jpg" alt="we live in a world" width="200">
+                            <a href="/images/memes/country%20opinions.png" target="_blank">
+                                <p style="opacity: .75;">country opinions</p>
+                                <img src="/images/memes/country%20opinions.png" alt="country opinions" width="200">
+                            </a>
+                        </div>
+                        
+                        
+                         
+                         
+                        
+                        
+
+                        <div class="meme">
+                            <a href="/images/memes/fenvryan%20spies.png" target="_blank">
+                                <p style="opacity: .75;">fenvryan spies</p>
+                                <img src="/images/memes/fenvryan%20spies.png" alt="fenvryan spies" width="200">
                             </a>
                         </div>
                         

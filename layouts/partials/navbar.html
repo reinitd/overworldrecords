@@ -18,13 +18,46 @@
                     <a href="{{ .Site.BaseURL }}blogs/">Blog</a>
                 </li>
             </ul>
+            
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search" />
+                <button id="search-btn">Search</button>
+            </div>
         </div>
     </nav>
 </header>
 
+<script>
+    const search = document.getElementById("search");
+    const searchbtn = document.getElementById("search-btn");
 
+    search.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && search.value.trim() != "") {
+            window.location.replace(`/search?s=${search.value}`);
+        }
+    });
+
+    searchbtn.addEventListener("click", (e) => {
+        if (search.value.trim() != "") {
+            window.location.replace(`/search?s=${search.value}`);
+        }
+    });
+</script>
 
 <style>
+    .search-container {
+        display: inline-flex;
+    }
+    #search {
+        background-color: var(--c-nav);
+        font-size: 1rem;
+        outline: 0;
+    }
+    #search-btn {
+        background-color: var(--c-nav);
+        cursor: pointer;
+    }
+
     header {
         position: sticky;
         z-index: 420;

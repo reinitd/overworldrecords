@@ -1,0 +1,17 @@
+{
+    "items": [
+    {{- $pagesCount := len $.Site.Pages -}}
+    {{- $first := true -}}
+    {{- range $index, $page := $.Site.Pages -}}
+        {{- if $page.Content -}}
+            {{- if not $first }},{{ end -}}
+            {
+                "url": "{{ $page.Permalink }}",
+                "title": "{{ if $page.Title }}{{ $page.Title }}{{ else }}{{ $page.Params.name }}{{ end }}",
+                "content": {{ $page.Content | plainify | jsonify }}
+            }
+            {{- $first = false -}}
+        {{- end }}
+    {{- end }}
+    ]
+}
