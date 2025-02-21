@@ -6,6 +6,30 @@
     --v-content-width-normal: 70rem;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444;
+    cursor: grab;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
+    background: #222 !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #333;
+}
+
 html, body {
     cursor: url("/images/cursor.cur"), auto;
 }

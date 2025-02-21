@@ -1,6 +1,8 @@
 baseURL = '/'
 languageCode = 'en-us'
 title = 'Overworld Records'
+[params]
+    website = 'https://overworldrecords.production'
 [module]
     [[module.mounts]]
         source = 'assets'

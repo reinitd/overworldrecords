@@ -1,0 +1,134 @@
+#song-container {
+    position: sticky;
+    z-index: 420;
+    top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #4e4d4f, #252627);
+    margin-bottom: 1.5rem;
+}
+
+p.t {
+    font-size: .9rem;
+}
+
+.song {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    width: 100%;
+    gap: 1rem;
+    height: 300px;
+}
+
+.song .details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.song .details .top {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.song .details .top .left {
+    flex-grow: 1;
+}
+
+.song .details .top .left,
+.song .details .top .right {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.song .details .top .left .title {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.song .details .top .left .title p:nth-child(1) {
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, .9);
+    color: white;
+    padding: .25rem .5rem;
+    flex-grow: 0; 
+    align-self: flex-start; /* Super weird, but stops child's width from stretching to end of parent. */
+    word-wrap: break-word;
+    margin-bottom: .25rem;
+}
+.song .details .top .left .title p:nth-child(2) {
+    background-color: rgba(0, 0, 0, .9);
+    align-self: flex-start;
+    padding: .25rem .5rem;
+    color: rgba(255, 255, 255, .9);
+}
+
+.song .details .top .right .info p:nth-child(1) {
+    font-size: .95rem;
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.song .details .top .right .info p:nth-child(2) {
+    background-color: #999999;
+    text-align: center;
+    font-size: 1.05rem;
+    border-radius: 50px;
+    width: auto;
+    float: right;
+    padding: .1rem .5rem;
+}
+
+.song .details .top .right .info p:nth-child(2)::before {
+    content: "#";
+    margin-right: 2px;
+}
+
+.song .waveform {
+    min-height: 150px;
+    position: relative;
+}
+.song .waveform p:nth-child(1) {
+    display: none;
+}
+.song .waveform p:nth-child(1),
+.song .waveform p:nth-child(2) {
+    position: absolute;
+    top: calc(75px - .75rem);
+    z-index: 5;
+    background-color: rgba(0, 0, 0, .75);
+    padding: .1rem .2rem;
+    font-size: .9rem;
+}
+.song .waveform p:nth-child(2) {
+    right: 0;
+}
+
+.song .actions {
+    display: inline-flex;
+    gap: .5rem;
+    font-size: 1.05rem;
+}
+
+.song .actions p,
+.song .actions a {
+    opacity: .75;
+    padding: .1rem .25rem;
+}
+
+.song .actions .b {
+    border-radius: 5px;
+    border: 1px solid rgb(100, 100, 100);
+    cursor: pointer;
+}
+
+.song .actions .b:hover {
+    background-color: rgb(100, 100, 100);
+}

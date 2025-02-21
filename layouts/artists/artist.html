@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/jpeg" href="/images/Overworld Records Logo.jpg">
+
+    <meta name="description" content="Listen to {{ .Params.name }} on Overworld Records.">
+    <meta property="og:site_name" content="Overworld Records" />
+    <meta property="og:title" content="{{ .Params.name }}" />
+    <meta property="og:description" content="Listen to {{ .Params.name }} on Overworld Records." />
+    <meta property="og:url" content="{{ .Site.Params.website }}{{ .RelPermalink }}" />
+    <meta property="og:image" content="{{ .Params.photo }}" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+
+    {{ $globalStyles := resources.Get "css/global.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $globalStyles.Permalink }}">
+    {{ $songStyles := resources.Get "css/song.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $songStyles.Permalink }}">
+    {{ $helpersScript := resources.Get "js/helpers.js" | minify | fingerprint }}
+    <script src="{{ $helpersScript.Permalink }}" defer></script>
+    <title>{{ .Params.name }}</title>
+</head>
+
+<body>
+    {{ partial "navbar.html" . }}
+    <div id="content">
+        {{ $dirPages := (site.GetPage (printf "artists/%s" (.Params.name | urlize))).Pages }}
+        {{ $songs := sort (where $dirPages "Params.layout" "song") "Params.released" "desc" }}
+
+        {{ $artistName := .Params.name }}
+
+        <div id="artistheader">
+            <div id="artist-photo">
+                <img src="{{ .Params.photo }}" alt="Photo of {{ .Params.name }}" width="200" height="200">
+            </div>
+            <span id="artist-details">
+                <h1 class="hl">{{ .Params.name }}</h1>
+                <span>
+                    <p class="hl">{{ .Params.from }}</p>
+                    <p class="hl">{{ .Params.affiliation }}</p>
+                    <p class="hl">{{ len $songs }} songs</p>
+                </span>
+            </span>
+        </div>
+
+        <script src="https://unpkg.com/wavesurfer.js@7"></script>
+
+        {{ if $songs }}
+        <br /><br />
+        {{ range $songs }}
+
+        {{ $uid := replace .Params.id "-" "" }}
+        <div id="lyrics-{{ $uid }}" style="
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: black;
+            padding: 1rem;
+            max-height: 700px;
+            max-width: 500px;
+            z-index: 420;
+        ">
+            <span style="width: 100%; margin-bottom: .25rem; display: inline-flex; align-items: center; justify-content: space-between;">
+                <h4>{{ .Params.name }} Lyrics</h4>
+                <p style="cursor: pointer;" onclick="this.parentNode.parentNode.style.display = 'none';"><i class="bx bx-x bx-sm"></i></p>
+            </span>
+            <article style="overflow-y: auto; max-height: calc(500px - 1rem - .25rem); white-space: pre-wrap; font-size: .9; opacity: .9;">{{ .Content }}</article>
+        </div>
+        <div class="song">
+            <a href="{{ .RelPermalink }}">
+            <img width="200" height="200" src="https://bl-prod-images.azureedge.net/v1.0/songs/{{ .Params.photo }}"
+                alt="Photo" />
+            </a>
+            <div class="details">
+                <span class="top">
+                    <div class="left">
+                        <i id="play-{{ $uid }}" class="bx bx-loader-alt bx-spin bx-lg" style="color:#ffffff;"></i>
+                        <a href="{{ .RelPermalink }}">
+                            <div class="title">
+                                <p>{{ $artistName }}</p>
+                                <p>{{ .Params.name }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <p class="to-elgeis-time">{{ .Params.released }}</p>
+                            <p>{{ .Params.genre }}</p>
+                        </div>
+                    </div>
+                </span>
+                <div class="waveform" id="waveform-{{ $uid }}">
+                    <p id="curr-{{ $uid }}">0:00</p>
+                    <p id="total-{{ $uid }}">?:??</p>
+                </div>
+                <audio id="audio-{{ $uid }}"
+                    src="https://static.bandlab.com/revisions-formatted/{{ .Params.song }}"></audio>
+                <div class="actions">
+                    <a class="b" href="//bandlab.com/track/{{ .Params.track }}" target="_blank"><i
+                            style="display: inline-block; font-size: .85rem;" class="bx bx-fw bxs-heart"></i> Like</a>
+                    <p class="b" onclick="navigator.clipboard.writeText('{{ .Site.Params.website }}{{ .RelPermalink }}')"><i style="display: inline-block; font-size: .85rem;" class="bx bx-fw bxs-copy"></i>Copy
+                        Link</p>
+                        <p class="b" onclick="document.getElementById('lyrics-{{ $uid }}').style.display = 'block';"><i style="display: inline-block; font-size: .95rem;" class="bx bx-fw bx-text"></i>View Lyrics</p>
+                    <a class="b" href="//bandlab.com/track/{{ .Params.track }}" target="_blank"><i
+                            style="display: inline-block; font-size: .85rem;" class="bx bx-fw bx-link-external"></i>View
+                        on Bandlab</a>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            var wavesurfer_{{ $uid | safeJS }} = WaveSurfer.create({
+                container: "#waveform-{{ $uid }}",
+                waveColor: "#454545",
+                progressColor: "#7d1c32",
+                barWidth: 4,
+                responsive: true,
+                barRadius: 4,
+                height: 100,
+                url: "https://corsproxy.io/?url=https://static.bandlab.com/revisions-formatted/{{ .Params.song }}"
+            });
+
+            var playButton_{{ $uid | safeJS }} = document.getElementById("play-{{ $uid }}");
+            var audio_{{ $uid | safeJS }} = document.getElementById("audio-{{ $uid }}");
+
+            var curr_{{ $uid | safeJS }} = document.getElementById("curr-{{ $uid }}");
+            var total_{{ $uid | safeJS }} = document.getElementById("total-{{ $uid }}");
+
+            wavesurfer_{{ $uid | safeJS }}.on("ready", () => {
+                updateTime_{{ $uid | safeJS }}();
+
+                playButton_{{ $uid | safeJS }}.classList.remove("bx-loader-alt");
+                playButton_{{ $uid | safeJS }}.classList.remove("bx-spin");
+                playButton_{{ $uid | safeJS }}.classList.add("bx-play");
+
+                playButton_{{ $uid | safeJS }}.addEventListener("click", function () {
+                    wavesurfer_{{ $uid | safeJS }}.playPause();
+                    var isPlaying = playButton_{{ $uid | safeJS
+                }}.classList.contains("bx-play");
+    
+    
+                    playButton_{{ $uid | safeJS }}.classList.toggle("bx-play", !isPlaying);
+                    playButton_{{ $uid | safeJS }}.classList.toggle("bx-pause", isPlaying);
+    
+                });
+            });
+
+            wavesurfer_{{ $uid | safeJS }}.on("play", () => {
+                curr_{{ $uid | safeJS }}.style.display = "block";
+            });
+
+            wavesurfer_{{ $uid | safeJS }}.on("interaction", () => {
+                updateTime_{{ $uid | safeJS }}();
+            });
+
+            wavesurfer_{{ $uid | safeJS }}.on("finish", () => {
+                wavesurfer_{{ $uid | safeJS }}.seekTo(0);
+                playButton_{{ $uid | safeJS }}.classList.remove("bx-pause");
+                playButton_{{ $uid | safeJS }}.classList.add("bx-play");
+                updateTime_{{ $uid | safeJS }}();
+            });
+
+            wavesurfer_{{ $uid | safeJS }}.on("audioprocess", () => {
+                if (!wavesurfer_{{ $uid | safeJS }}.isPlaying()) {
+                    return;
+                }
+
+                updateTime_{{ $uid | safeJS }}();
+            });
+
+            function updateTime_{{ $uid | safeJS }}() {
+                var tt_{{ $uid | safeJS }} = wavesurfer_{{ $uid | safeJS }}.getDuration();
+                var ct_{{ $uid | safeJS }} = wavesurfer_{{ $uid | safeJS }}.getCurrentTime();
+                var rt_{{ $uid | safeJS }} = tt_{{ $uid | safeJS }} - ct_{{ $uid | safeJS }};
+
+                total_{{ $uid | safeJS }}.textContent = formatTime(tt_{{ $uid | safeJS }});
+                curr_{{ $uid | safeJS }}.textContent = formatTime(ct_{{ $uid | safeJS }});
+            }
+
+
+        </script>
+
+        {{ end }}
+        {{ else }}
+        <p style="margin-top: 1rem;">{{ .Params.name }} hasn't released any songs, yet.</p>
+        {{ end }}
+
+    </div>
+
+    <style>
+        article::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        article::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 4px;
+        }
+
+        article::-webkit-scrollbar-thumb {
+            background: #444;
+            cursor: grab;
+            border-radius: 4px;
+        }
+
+        article::-webkit-scrollbar-thumb:active {
+            cursor: grabbing;
+            background: #222 !important;
+        }
+
+        article::-webkit-scrollbar-thumb:hover {
+            background: #333;
+        }
+
+        #songs {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 1rem;
+        }
+
+        #artistheader {
+            width: 100%;
+            padding: .5rem 0;
+            background-image: url({{ .Params.backdrop }});
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #artistheader #artist-details {
+            display: flex;
+            flex-direction: column;
+            gap: .15rem;
+        }
+
+        #artistheader .hl {
+            background-color: rgba(0, 0, 0, .65);
+            padding: .1rem .25rem;
+            width: fit-content;
+        }
+
+        #artistheader #artist-details>span {
+            display: inline-flex;
+            gap: .24rem;
+            width: 100%;
+        }
+
+        #artistheader #artist-photo img {
+            border-radius: 100%;
+            margin-left: 1rem;
+        }
+    </style>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/jpeg" href="/images/Overworld Records Logo.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {{ $artistPage := .Site.GetPage (printf "%s/_index.md" .File.Dir) }}
+  <meta name="description" content="Listen to {{ .Params.name }} on Overworld Records. Song · {{ $artistPage.Params.name }}">
+  <meta property="og:site_name" content="Overworld Records" />
+  <meta property="og:title" content="{{ .Params.name }}" />
+  <meta property="og:description" content="{{ $artistPage.Params.name }} · {{ .Params.name }} · Song" />
+  <meta property="og:url" content="{{ .Site.Params.website }}/artists/{{ $artistPage.Params.name | urlize }}/{{ .Params.name | urlize }}" />
+  <meta property="og:type" content="music.song" />
+  <meta property="og:audio" content="https://static.bandlab.com/revisions-formatted/{{ .Params.song }}" />
+  <meta property="og:audio:type" content="audio/m4a" />
+  <meta property="og:image" content="https://bl-prod-images.azureedge.net/v1.0/songs/{{ .Params.photo }}" />
+  <meta name="music:album" content="{{ .Site.Params.website }}/artists/{{ $artistPage.Params.name | urlize }}/{{ .Params.name | urlize }}" />
+  <meta name="music:album:track" content="1" />
+  <meta name="music:release_date" content="{{ .Params.release }}" />
+  <meta name="music:musician" content="{{ .Site.Params.website }}/artists/{{ $artistPage.Params.name | urlize }}" />
+  <meta name="music:musician_description" content="{{ $artistPage.Params.name }}" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  {{ $styles := resources.Get "css/global.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $styles.Permalink }}">
+  {{ $songStyles := resources.Get "css/songdedi.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $songStyles.Permalink }}">
+  {{ $helpersScript := resources.Get "js/helpers.js" | minify | fingerprint }}
+  <script src="{{ $helpersScript.Permalink }}" defer></script>
+  <title>{{$artistPage.Params.name}} - {{ .Params.name }}</title>
+</head>
+
+<body>
+  {{ partial "navbar.html" . }}
+  <div id="content">
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+
+    <div id="song-container">
+      <div class="song">
+        <div class="details">
+          <span class="top">
+            <div class="left">
+              <i id="play" class="bx bx-loader-alt bx-spin bx-lg bx"
+                style="color:#ffffff; font-size: 4rem !important;"></i>
+
+              <div class="title">
+                <p>{{ .Params.name }}</p>
+                <p><a href="{{ $artistPage.RelPermalink }}">{{ $artistPage.Params.name }}</a></p>
+              </div>
+            </div>
+            <div class="right">
+              <div class="info">
+                <p class="to-elgeis-time">{{ .Params.released }}</p>
+                <p>{{ .Params.genre }}</p>
+              </div>
+            </div>
+          </span>
+          <div class="waveform" id="waveform">
+            <p id="curr">0:00</p>
+            <p id="total">?:??</p>
+          </div>
+          <audio id="audio" src="https://static.bandlab.com/revisions-formatted/{{ .Params.song }}"></audio>
+          <div class="actions">
+            <a class="b" href="//bandlab.com/track/{{ .Params.track }}" target="_blank"><i
+                style="display: inline-block; font-size: .95rem;" class="bx bx-fw bxs-heart"></i> Like</a>
+            <p class="b" onclick="navigator.clipboard.writeText('{{ .Site.Params.website }}{{ .RelPermalink }}')"><i
+                style="display: inline-block; font-size: .95rem;" class="bx bx-fw bxs-copy"></i>Copy
+              Link</p>
+            <a class="b" href="//bandlab.com/track/{{ .Params.track }}" target="_blank"><i
+                style="display: inline-block; font-size: .95rem;" class="bx bx-fw bx-link-external"></i>View
+              on Bandlab</a>
+          </div>
+        </div>
+
+        <img width="300" height="300" src="https://bl-prod-images.azureedge.net/v1.0/songs/{{ .Params.photo }}"
+          alt="Photo" />
+      </div>
+    </div>
+
+    {{ $dirPages := (site.GetPage (printf "artists/%s" ($artistPage.Params.name | urlize))).Pages }}
+    {{ $songs := where $dirPages "Params.layout" "song" }}
+
+    <div style="display: inline-flex; gap: 1rem;">
+      <div style="max-width: 150px;">
+        <img width="150" height="150" src="{{ $artistPage.Params.photo }}" alt="Photo"
+          style="border-radius: 100%; margin-bottom: .5rem;" />
+        <a href="/artists/{{ $artistPage.Params.name | urlize }}"><strong>{{ $artistPage.Params.name }}</strong></a>
+        <p class="t" style="margin-top: .25rem;">{{ $artistPage.Params.affiliation }}</p>
+        <p class="t">{{ len $songs }} songs</p>
+      </div>
+      <div>
+        <h4 style="margin-bottom: .25rem;">Lyrics:</h4>
+        <article style="white-space: pre-wrap; font-size: .9rem; opacity: .9;">{{ .Content }}</article>
+      </div>
+    </div>
+
+    <script>
+      var wavesurfer = WaveSurfer.create({
+        container: "#waveform",
+        waveColor: "#cdcdcd",
+        progressColor: "#7d1c32",
+        barWidth: 4,
+        responsive: true,
+        barRadius: 4,
+        height: 150,
+        url: "https://corsproxy.io/?url=https://static.bandlab.com/revisions-formatted/{{ .Params.song }}"
+      });
+
+      var playButton = document.getElementById("play");
+      var audio = document.getElementById("audio");
+
+      var curr = document.getElementById("curr");
+      var total = document.getElementById("total");
+
+      wavesurfer.on("ready", () => {
+        updateTime();
+
+        playButton.classList.remove("bx-loader-alt");
+        playButton.classList.remove("bx-spin");
+        playButton.classList.add("bx-play");
+
+        playButton.addEventListener("click", function () {
+          wavesurfer.playPause();
+          var isPlaying = playButton.classList.contains("bx-play");
+
+
+          playButton.classList.toggle("bx-play", !isPlaying);
+          playButton.classList.toggle("bx-pause", isPlaying);
+
+        });
+      });
+
+      wavesurfer.on("play", () => {
+        curr.style.display = "block";
+      });
+
+      wavesurfer.on("interaction", () => {
+        updateTime();
+      });
+
+      wavesurfer.on("finish", () => {
+        wavesurfer.seekTo(0);
+        playButton.classList.remove("bx-pause");
+        playButton.classList.add("bx-play");
+        updateTime();
+      });
+
+      wavesurfer.on("audioprocess", () => {
+        if (!wavesurfer.isPlaying()) {
+          return;
+        }
+
+        updateTime();
+      });
+
+      function updateTime() {
+        var tt = wavesurfer.getDuration();
+        var ct = wavesurfer.getCurrentTime();
+        var rt = tt - ct;
+
+        total.textContent = formatTime(tt);
+        curr.textContent = formatTime(ct);
+      }
+
+
+    </script>
+  </div>
+
+  <style>
+    #songs {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+    }
+
+    #artistheader {
+      width: 100%;
+      padding: .5rem 0;
+      background-image: url({{ .Params.backdrop }});
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    #artistheader #artist-details {
+      display: flex;
+      flex-direction: column;
+      gap: .15rem;
+    }
+
+    #artistheader .hl {
+      background-color: rgba(0, 0, 0, .65);
+      padding: .1rem .25rem;
+      width: fit-content;
+    }
+
+    #artistheader #artist-details>span {
+      display: inline-flex;
+      gap: .24rem;
+      width: 100%;
+    }
+
+    #artistheader #artist-photo img {
+      border-radius: 100%;
+      margin-left: 1rem;
+    }
+  </style>
+</body>
+
+</html>

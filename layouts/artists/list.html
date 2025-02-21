@@ -3,8 +3,19 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/jpeg" href="/images/Overworld Records Logo.jpg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Overworld Records Artists</title>
+
+  <meta name="description"
+    content="View all artists signed to Overworld Records, the home of REAP TRAP SHIT, ON FOENEM GRAVE.">
+  <meta property="og:site_name" content="Overworld Records" />
+  <meta property="og:title" content="Overworld Records Artists" />
+  <meta property="og:description"
+    content="View all artists signed to Overworld Records, the home of REAP TRAP SHIT, ON FOENEM GRAVE." />
+  <meta property="og:url" content="{{ .Site.Params.website }}{{ .RelPermalink }}" />
+  <meta property="og:image" content="{{ .Site.Params.website }}/images/Overworld Records Logo Full.jpg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
@@ -27,23 +38,33 @@
           <h2>Overworld Records Artists</h2>
           <br />
           <span style="display: flex; flex-wrap: wrap; gap: 1rem;">
+
             {{ $artistList := slice }} <!-- Create an empty slice to store artist data -->
 
-            <!-- Use .Pages to get the content files for artists -->
             {{ range .Site.Pages }}
             {{ if and (eq .Type "artists") (or .Params.name .Params.photo) }}
-            <!-- Ensure the artist has a name or photo -->
-            {{ $numSongs := 0 }} <!-- Initialize $numSongs to 0 by default -->
-            {{ if .Params.songs }} <!-- Ensure .songs exists -->
-            {{ $numSongs = len .Params.songs }} <!-- Count number of songs from frontmatter -->
+
+            {{ $dirPages := (site.GetPage (printf "artists/%s" (.Params.name | urlize))).Pages }}
+
+            {{ $photo := .Params.photo }}
+
+            {{ $numSongs := 0 }}
+
+            {{ $songs := where $dirPages "Params.layout" "song" }}
+            {{ $filteredSongs := $songs }}
+
+            {{ $numSongs = len $filteredSongs }}
+
+            {{ if eq .Params.layout "artist" }}
+            {{ $artistList = $artistList | append (dict "name" .Params.name "photo" $photo "numSongs" $numSongs) }}
             {{ end }}
-            {{ $artistList = $artistList | append (dict "name" .Params.name "photo" .Params.photo "numSongs"
-            $numSongs) }}
             {{ end }}
             {{ end }}
 
+            <!-- Sort artists by number of songs (descending order) -->
             {{ $sortedArtists := sort $artistList "numSongs" "desc" }}
 
+            <!-- Display artists -->
             {{ range $sortedArtists }}
             <div class="artist">
               <a href="/artists/{{ .name | urlize }}">
@@ -52,6 +73,8 @@
               </a>
             </div>
             {{ end }}
+
+
           </span>
         </div>
       </div>

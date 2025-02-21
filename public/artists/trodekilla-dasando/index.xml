@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Overworld Records</title>
-    <link>//localhost:1313/</link>
+    <link>//localhost:1313/artists/trodekilla-dasando/</link>
     <description>Recent content on Overworld Records</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="//localhost:1313/artists/trodekilla-dasando/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
       <link>//localhost:1313/artists/trodekilla-dasando/blocka/</link>
@@ -27,20 +27,6 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>//localhost:1313/artists/trodekilla-dasando/trodation/</guid>
       <description>&lt;p&gt;I love diamonds, I HATE TRODERS.&#xA;Seen a fat vein, know I had to mine it.&#xA;She got good diamonds, SHE A MINER.&#xA;I got a troder tied up in my attic.&#xA;I rob a lot of trodes, IT&amp;rsquo;S A BAD HABIT.&#xA;I tell all the troders, to take THEIR FUCKIN ARMOUR OFF.&#xA;Stick a trode down, SO GOOD HE LOGGED OFF.&#xA;Give a bitch backshots, like BOW BOW BOW.&#xA;I done fucked the troder up, HE CAN&amp;rsquo;T SIT DOWN.&#xA;I call Medi up, tell him let&amp;rsquo;s roll.&#xA;My brother 3r at the Whiskey Wyvern, get a WHISKEY SHOT.&#xA;All the bros in the whip, we BUMPIN&amp;rsquo; MEDSTAR.&#xA;I&amp;rsquo;d kill a troder, like IM VETOUS.&#xA;Don&amp;rsquo;t mention Deadlocked AROUND ANY TRODES.&#xA;Flying is a troder, THATS FOR SURE.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>FREE THE GANG</title>
-      <link>//localhost:1313/blogs/2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/blogs/2/</guid>
-      <description>&lt;p&gt;FREE FRIZ, FREE GUPTA, FREE DEADLOCKED, FREE ALL THE GANG BLOCKA.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Rest in Peace, 1st blog</title>
-      <link>//localhost:1313/blogs/1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/blogs/1/</guid>
-      <description>&lt;p&gt;FLY HIGH ARGET, BANKSY, POLG, KALE.&#xA;THEY DIDNT DESERVE TO DIE ON FOENEM.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

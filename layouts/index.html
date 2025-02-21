@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overworld Records</title>
+
+    <meta name="description" content="Overworld Records, the home of REAL TRAP SHIT, ON FOENEM GANG.">
+    <meta property="og:site_name" content="Overworld Records" />
+    <meta property="og:title" content="Overworld Records" />
+    <meta property="og:description" content="Overworld Records, the home of REAL TRAP SHIT, ON FOENEM GANG." />
+    <meta property="og:url" content="{{ .Site.Params.website }}" />
+    <meta property="og:image" content="{{ .Site.Params.website }}/images/Overworld Records Logo Full.jpg" />
+
+    <link rel="icon" type="image/jpeg" href="/images/Overworld Records Logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
@@ -30,16 +39,24 @@
                     <span class="scrollable-flex-span">
                         {{ $artistList := slice }} <!-- Create an empty slice to store artist data -->
 
-                        <!-- Use .Pages to get the content files for artists -->
                         {{ range .Site.Pages }}
                         {{ if and (eq .Type "artists") (or .Params.name .Params.photo) }}
-                        <!-- Ensure the artist has a name or photo -->
-                        {{ $numSongs := 0 }} <!-- Initialize $numSongs to 0 by default -->
-                        {{ if .Params.songs }} <!-- Ensure .songs exists -->
-                        {{ $numSongs = len .Params.songs }} <!-- Count number of songs from frontmatter -->
-                        {{ end }}
-                        {{ $artistList = $artistList | append (dict "name" .Params.name "photo" .Params.photo "numSongs"
+
+                        {{ $dirPages := (site.GetPage (printf "artists/%s" (.Params.name | urlize))).Pages }}
+
+                        {{ $photo := .Params.photo }}
+
+                        {{ $numSongs := 0 }}
+
+                        {{ $songs := where $dirPages "Params.layout" "song" }}
+                        {{ $filteredSongs := $songs }}
+
+                        {{ $numSongs = len $filteredSongs }}
+
+                        {{ if eq .Params.layout "artist" }}
+                        {{ $artistList = $artistList | append (dict "name" .Params.name "photo" $photo "numSongs"
                         $numSongs) }}
+                        {{ end }}
                         {{ end }}
                         {{ end }}
 
@@ -55,6 +72,8 @@
                             </a>
                         </div>
                         {{ end }}
+
+
                         <a href="/artists" target="_blank"
                             style="opacity: .35; margin: auto 0; transform: translateY(-1ch); white-space: nowrap;">See
                             all</a>
