@@ -2,7 +2,7 @@ baseURL = '/'
 languageCode = 'en-us'
 title = 'Overworld Records'
 [params]
-    website = 'https://overworldrecords.production'
+    website = 'https://overworldrecords.com'
 [outputs]
     home = [ "HTML", "JSON", "RSS" ]
 [module]
