@@ -13,8 +13,10 @@
 
     broke.onclick = () => {
         const video = document.createElement('video');
-        video.src = '/video/broke.mp4';
+
+        video.src = '/videos/broke.mp4';
         video.autoplay = true;
+        video.controls = false;
         video.style.position = 'fixed';
         video.style.top = '50%';
         video.style.left = '50%';
