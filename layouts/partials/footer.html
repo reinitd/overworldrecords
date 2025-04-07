@@ -5,11 +5,31 @@
 
 <script>
     const broke = document.getElementById("broke");
-    broke.onclick = () => {
+    {{/*  broke.onclick = () => {
         const a = new Audio("/audio/broke.mp3");
         a.play()
         a.remove()
-    }
+    }  */}}
+
+    broke.onclick = () => {
+        const video = document.createElement('video');
+        video.src = '/video/broke.mp4';
+        video.autoplay = true;
+        video.style.position = 'fixed';
+        video.style.top = '50%';
+        video.style.left = '50%';
+        video.style.transform = 'translate(-50%, -50%)';
+        video.style.zIndex = '99999';
+        video.style.maxWidth = '100%';
+        video.style.maxHeight = '100%';
+    
+        document.body.appendChild(video);
+    
+        video.onended = () => {
+            video.remove();
+        };
+    };
+    
 </script>
 
 <style>
